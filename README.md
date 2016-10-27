@@ -1,0 +1,2 @@
+# CHashTables
+Just a quick hash table implementation I did in C in my free time. Keys are defined as strings, and values as void pointers(which means they can be anything). The hashing function can be changed on the hashtables.c file, but after some testing I came to the conclusion that the djb2 function used is already pretty efficient at preventing collisions. Feel free to use this in your own work, but keep in mind I did not do any formal testing of the project and there are a lot of ways you could improve it.
