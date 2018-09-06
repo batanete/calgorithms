@@ -8,7 +8,7 @@ Hashtable implementation in C(works for values any data type,keys are strings).
 #ifndef HASHTABLESBATA
 #define HASHTABLESBATA
 
-#define MAX_KEY_SIZE 20
+#define MAX_KEY_SIZE 30
 
 //structure where each key/value pair is stored.
 //since it's possible to have more than one node on a table index, we need a pointer
