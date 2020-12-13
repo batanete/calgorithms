@@ -57,6 +57,8 @@ htptr create_hash_table(unsigned int size){
 	res->n_elements=0;
 	res->size=size;
 	res->keys=NULL;
+
+	
 	
 	return res;
 }
