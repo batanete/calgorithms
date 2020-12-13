@@ -57,10 +57,7 @@ htptr create_hash_table(unsigned int size){
 	res->size=size;
 	res->keys=NULL;
 	
-	res->table=(ht_node**)malloc(size*sizeof(ht_node*));
-	
-	//set table to zeroes(we need to have the table with NULLs to know the positions are empty)
-	memset(res->table,0,size*sizeof(ht_node*));
+	res->table=(ht_node**)calloc(size*sizeof(ht_node*));
 	
 	return res;
 }
