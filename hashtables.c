@@ -58,6 +58,8 @@ htptr create_hash_table(unsigned int size){
 	res->size=size;
 	res->keys=NULL;
 	
+	res->table=(ht_node**)calloc(size*sizeof(ht_node*));
+
 	return res;
 }
 
