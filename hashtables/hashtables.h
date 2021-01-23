@@ -52,7 +52,7 @@ typedef ht* htptr;
 
 //returns a new hashtable with the desired size.
 //if there isn't enough memory, returns NULL
-htptr create_hash_table(unsigned int);
+htptr ht_create(unsigned int);
 
 //deletes hashtable, freeing up the memory it took, along with all of it's elements(not including the value pointers)
 int ht_delete(htptr);
