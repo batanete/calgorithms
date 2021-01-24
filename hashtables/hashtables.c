@@ -14,7 +14,7 @@
  */
 
 //returns the index for the given key and table size
-unsigned long hash_function(unsigned int size, char* key){
+static unsigned long hash_function(unsigned int size, char* key){
 	unsigned long res = 5381; //djb2
 	//unsigned long res = 0; //others
     int c;

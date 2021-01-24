@@ -1,10 +1,11 @@
+#include "tests.h"
 #include "../hashtables/hashtables.h"
 #include <stdlib.h>
 #include <assert.h>
 #include <stdio.h>
 
 
-void insert_one_and_remove() {
+static void insert_one_and_remove() {
 	htptr ht = ht_create(100);
 	assert(ht != NULL);
 	assert(ht->n_elements == 0);
@@ -25,11 +26,11 @@ void insert_one_and_remove() {
 
 	ht_delete(ht);
 
-	printf("insert_one_and_remove passed\n");
+	printf("Hashtables: insert_one_and_remove passed\n");
 }
 
 
-void many_inserts_and_removes() {
+static void many_inserts_and_removes() {
 	char key1[] = "stuff1", key2[] = "stuff2", key3[] = "stuff3";
 	int val1 = 101, val2 = 102, val3 = 103, new_val1 = 111, aux;
 
@@ -66,13 +67,11 @@ void many_inserts_and_removes() {
 
 	ht_delete(ht);
 
-	printf("many_inserts_and_removes passed\n");
+	printf("Hash tables: many_inserts_and_removes passed\n");
 }
 
-int main() {
+void hashtable_tests() {
 
 	insert_one_and_remove();
 	many_inserts_and_removes();
-
-	return 0;
 }
