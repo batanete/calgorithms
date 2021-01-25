@@ -9,6 +9,7 @@ static void insert_one_and_remove() {
 	char str[] = "str";
 
 	queueptr queue = queue_create(100);
+
 	assert(queue != NULL);
 	assert(queue->n_elements == 0);
 	assert(queue->max_elements == 100);
@@ -112,8 +113,6 @@ static void with_rotation_involved() {
 	assert(queue->n_elements == 0);
 	assert(queue_peek(queue) == NULL);
 	assert(queue_remove(queue) == NULL);
-
-	// TODO
 
 	printf("Queues: with_rotation_involved passed\n");
 }

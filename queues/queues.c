@@ -5,7 +5,7 @@
 // functions included in .h
 
 queueptr queue_create(unsigned max_elements) {
-	queueptr queue = (queueptr)malloc(sizeof(queue));
+	queueptr queue = (queueptr)malloc(sizeof(struct queue_str));
 
 	queue->elements = (void**)malloc(sizeof(void*) * max_elements);
 
