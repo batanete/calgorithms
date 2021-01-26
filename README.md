@@ -1,8 +1,17 @@
 # Algorithms
 
-This repository contains a few algorithms and data structures implemented in C in my free time as a hobbyist programmer. You are completely free to use these for anything you like, but keep in mind I did not do any thorough performance or functional testing beyond the basic tests posted here.
+This repository contains a few algorithms and data structures implemented in C. The rationale for implementing these, is mostly for practice and fun. Event if you don't often use C in your field(I personally use mostly JVM languages), implementing data structures from scratch using C can be a good way to understand how their implementations work in the background.
+
+That being said, you are completely free to use these for anything you like, but keep in mind I did not do any thorough performance or functional testing beyond the basic tests posted here.
+
+
+## Queues
+Queue implementation. All operations(insert, remove and peek) are handled in O(1) time complexity(uses a ring buffer-like implementation to achieve this, as using a linked list would impact locality of reference). Resizes are not supported as of now, might add that later on.
 
 ## HashTables
-Hash table implementation. Keys are defined as strings, and values as void pointers(which means they can be anything). The hashing function can be changed on the hashtables.c file(function hash_function), but after some testing I came to the conclusion that the djb2 function used is already pretty efficient at preventing collisions.
+Hash table implementation. Keys are defined as strings, and values as void pointers(which can point towards anything). The hashing function can be changed on the hashtables.c file(function hash_function), but after some testing I came to the conclusion that the djb2 function used is already pretty efficient at preventing collisions. No resizes supported as of now, might add that later on.
 
-This was implemented a long time ago, when I was still a student, so the code does not look that pretty :) Also, it does not support resizes when the size is exceeded(I might add this later on if I'm bored).
+All basic operations(inserts, searches and deletes) are done in O(1) time complexity(assuming collisions are rare), although I'm sure the implementation could still be optimized further.
+
+## Trie
+String(char array) trie implementation. Useful mainly for doing partial searches on a set of strings(for example, searching for a prefix for a given string). Worst-time complexity for all supported search operations is O(m) where m is the length of the string.

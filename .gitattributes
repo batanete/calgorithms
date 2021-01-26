@@ -1,0 +1,2 @@
+# Make sure .h files do not get recognised as C++ on github
+**/*.h linguist-language=h
