@@ -5,9 +5,9 @@ Operations:
 -enqueue
 -dequeue
 -peek
-(every operation is guaranteed to be O(1))
+(every operation is guaranteed to be O(1) ammortized)
 
-Note: does not support extending the queue once created.
+Supports resizes when initial capacity is exceeded.
 */
 
 #ifndef QUEUESBATA
@@ -20,17 +20,18 @@ typedef struct queue_str {
 	unsigned front_index;
 	unsigned back_index;
 	unsigned n_elements;
-	unsigned max_elements;
+	unsigned capacity;
 } queue;
 
-// creates a new queue and returns a pointer to it
-queueptr queue_create(unsigned max_elements);
+// creates a new queue and returns a pointer to it.
+// returns NULL in case malloc fails.
+queueptr queue_create(unsigned initial_capacity);
 
 // frees the heap memory taken by the given queue
 void queue_delete(queueptr queue);
 
-// enqueues an element in the queue. returns -1 if the
-// queue is full
+// enqueues an element in the queue. if capacity is exceeded, it will perform a resize.
+// returns -1 in case of memory error during a resize.
 int queue_insert(queueptr queue, void* element);
 
 // removes element at the front of the queue and returns it.
@@ -40,5 +41,8 @@ void* queue_remove(queueptr queue);
 // returns element at the front of the queue without removing it.
 // if queue is empty, returns NULL instead.
 void* queue_peek(queueptr queue);
+
+// duplicates capacity of queue. returns -1 if memory is exceeded.
+void queue_resize(queueptr queue);
 
 #endif

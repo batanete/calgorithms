@@ -18,6 +18,7 @@ static void search_prefix() {
 	assert(trie_insert(trie, "4") != -1);
 	assert(trie_insert(trie, "53123") != -1);
 	assert(trie_insert(trie, "888") != -1);
+	assert(trie_insert(trie, "3355") != -1);
 
 	char* result;
 
@@ -39,6 +40,22 @@ static void search_prefix() {
 
 	result = trie_search_prefix(trie, "9110");
 	assert(strcmp(result, "911") == 0);
+	free(result);
+
+	result = trie_search_prefix(trie, "3255");
+	assert(strcmp(result, "32") == 0);
+	free(result);
+
+	result = trie_search_prefix(trie, "3355");
+	assert(strcmp(result, "3355") == 0);
+	free(result);
+
+	result = trie_search_prefix(trie, "33550");
+	assert(strcmp(result, "3355") == 0);
+	free(result);
+
+	result = trie_search_prefix(trie, "33550000");
+	assert(strcmp(result, "3355") == 0);
 	free(result);
 
 	result = trie_search_prefix(trie, "7777");
