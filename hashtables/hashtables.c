@@ -14,7 +14,7 @@
  */
 
 //returns the index for the given key and table size
-static unsigned long hash_function(unsigned int size, char* key){
+static unsigned long hash_function(unsigned int size, char* key) {
 	unsigned long res = 5381; //djb2
 	//unsigned long res = 0; //others
     int c;
@@ -92,7 +92,7 @@ static int resize(htptr ht) {
 
 //returns a new hashtable with the desired maxsize.
 //if there isn't enough memory, returns NULL
-htptr ht_create(unsigned int size){
+htptr ht_create(unsigned int size) {
 	htptr res;
 	
 	res = (htptr)malloc(sizeof(ht));
@@ -111,7 +111,7 @@ htptr ht_create(unsigned int size){
 
 //deletes hashtable, freeing up the memory it took, along with all of it's elements(not including the value pointers)
 //returns -1 on fail and 0 on success.
-int ht_delete(htptr ht){
+int ht_delete(htptr ht) {
 	ht_node* nodeptr;
 	int i;
 	nodeptr = ht->table;
@@ -136,7 +136,7 @@ int ht_delete(htptr ht){
 //returns the value associated with the given key on ht, or NULL if the key doesn't exist on it.
 //not that if you have a key associated with the value NULL, it will still return NULL, so it's best
 //not to do that.
-void* ht_get(htptr h, char* k){
+void* ht_get(htptr h, char* k) {
 	unsigned long index;
 	ht_node* aux;
 	
@@ -160,7 +160,7 @@ void* ht_get(htptr h, char* k){
 //returns 1 if there were collisions during insertion and 0 if not.
 //or -1 if an error ocurred.
 //may perform a resize if the load factor is exceeded.
-int ht_insert(htptr ht, char* key, void* value){
+int ht_insert(htptr ht, char* key, void* value) {
 	int res = 0, index;
 	ht_node* node;
 	
@@ -210,7 +210,7 @@ int ht_insert(htptr ht, char* key, void* value){
 
 //deletes an element from the hashtable. 
 //returns -1 if element with the given key does not exist on ht.
-void* ht_remove(htptr ht,char* key){
+void* ht_remove(htptr ht,char* key) {
 	unsigned long index = hash_function(ht->size, key);
 	
 	ht_node* node = &ht->table[index];
@@ -245,7 +245,7 @@ void* ht_remove(htptr ht,char* key){
 
 //returns a dynamic allocated array with all the keys of the HT.
 //the size of the array will be ht->n_elements.
-char** ht_get_all_keys(htptr ht){
+char** ht_get_all_keys(htptr ht) {
 	char **result = (char**)malloc(sizeof(char*) * ht->n_elements);
 	ht_node* nodeptr = ht->table;
 	int index = 0;
