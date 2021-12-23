@@ -90,8 +90,6 @@ static int resize(htptr ht) {
  * 
  */
 
-//returns a new hashtable with the desired maxsize.
-//if there isn't enough memory, returns NULL
 htptr ht_create(unsigned int size) {
 	htptr res;
 	
@@ -109,8 +107,6 @@ htptr ht_create(unsigned int size) {
 	return res;
 }
 
-//deletes hashtable, freeing up the memory it took, along with all of it's elements(not including the value pointers)
-//returns -1 on fail and 0 on success.
 int ht_delete(htptr ht) {
 	ht_node* nodeptr;
 	int i;
@@ -133,9 +129,6 @@ int ht_delete(htptr ht) {
 	return 0;
 }
 
-//returns the value associated with the given key on ht, or NULL if the key doesn't exist on it.
-//not that if you have a key associated with the value NULL, it will still return NULL, so it's best
-//not to do that.
 void* ht_get(htptr h, char* k) {
 	unsigned long index;
 	ht_node* aux;
@@ -152,19 +145,15 @@ void* ht_get(htptr h, char* k) {
 		aux = aux->next;
 	}
 	
-	//key doesn't exist on ht
+	// key doesn't exist on ht
 	return NULL;
 }
 
-//inserts a new element on the hashtable with a given key and value(void pointer). 
-//returns 1 if there were collisions during insertion and 0 if not.
-//or -1 if an error ocurred.
-//may perform a resize if the load factor is exceeded.
 int ht_insert(htptr ht, char* key, void* value) {
 	int res = 0, index;
 	ht_node* node;
 	
-	//key too big
+	// key too big
 	if (strlen(key) >= HASHTABLE_MAX_KEY_SIZE) {
 		return -1;
 	}
@@ -208,8 +197,6 @@ int ht_insert(htptr ht, char* key, void* value) {
 	return res;
 }
 
-//deletes an element from the hashtable. 
-//returns -1 if element with the given key does not exist on ht.
 void* ht_remove(htptr ht,char* key) {
 	unsigned long index = hash_function(ht->size, key);
 	
@@ -239,12 +226,10 @@ void* ht_remove(htptr ht,char* key) {
 		}
 	}
 	
-	//key doesn't exist on ht
+	// key doesn't exist on ht
 	return NULL;
 }
 
-//returns a dynamic allocated array with all the keys of the HT.
-//the size of the array will be ht->n_elements.
 char** ht_get_all_keys(htptr ht) {
 	char **result = (char**)malloc(sizeof(char*) * ht->n_elements);
 	ht_node* nodeptr = ht->table;

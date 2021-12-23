@@ -22,7 +22,7 @@ typedef struct ht_node_str{
 } ht_node;
 
 
-//structure used for the header of the ht.
+// structure used for the header of the ht.
 typedef struct{
 	
 	ht_node *table;
@@ -32,35 +32,35 @@ typedef struct{
 	
 }ht;
 
-//define htptr as a pointer to a ht for simplicity's sake
+// define htptr as a pointer to a ht for simplicity's sake
 typedef ht* htptr;
 
-//returns a new hashtable with the desired size.
-//if there isn't enough memory, returns NULL
+// returns a new hashtable with the desired size.
+// if there isn't enough memory, returns NULL
 htptr ht_create(unsigned int);
 
-//deletes hashtable, freeing up the memory it took, along with all of it's elements(not including the value pointers)
+// deletes hashtable, freeing up the memory it took, along with all of it's elements(not including the value pointers)
 int ht_delete(htptr);
 
-//inserts a new element on the hashtable with a given key and value(void pointer). 
-//returns 1 if there were collisions during insertion and 0 if not.
-//or -1 if an error ocurred.
-//may perform a resize if the load factor is exceeded.
+// inserts a new element on the hashtable with a given key and value(void pointer). 
+// returns 1 if there were collisions during insertion and 0 if not.
+// or -1 if an error ocurred.
+// may perform a resize if the load factor is exceeded.
 int ht_insert(htptr,char*,void*);
 
-//deletes an element from the hashtable. returns the value of the element removed or
-//NULL if element with the given key does not exist on ht.
-//note that if you have a key associated with the value NULL, it will still return NULL, so it's best
-//not to do that.
+// deletes an element from the hashtable. returns the value of the element removed or
+// NULL if element with the given key does not exist on ht.
+// note that if you have a key associated with the value NULL, it will still return NULL, so it's best
+// not to do that.
 void* ht_remove(htptr,char*);
 
-//returns the value associated with the given key on ht, or NULL if the key doesn't exist on it.
-//note that if you have a key associated with the value NULL, it will still return NULL, so it's best
-//not to do that.
+// returns the value associated with the given key on ht, or NULL if the key doesn't exist on it.
+// note that if you have a key associated with the value NULL, it will still return NULL, so it's best
+// not to do that.
 void* ht_get(htptr,char*);
 
-//returns a dynamic allocated array with all the keys of the HT.
-//the size of the array will be ht->n_elements.
+// returns a dynamic allocated array with all the keys of the HT.
+// the size of the array will be ht->n_elements.
 char** ht_get_all_keys(htptr);
 
 #endif //HASHTABLESBATA
