@@ -184,7 +184,6 @@ static void with_resizes() {
 	assert(*(int*)queue->elements[2] == 22);
 
 	assert(queue_insert(queue, ints + 23) != -1);
-	printf("actual:%d\n", *(int*)queue_peek(queue));
 	assert(*(int*)queue_peek(queue) == 3);
 	assert(queue->n_elements == 21);
 	assert(queue->capacity == 40);

@@ -9,7 +9,7 @@ That being said, you are completely free to use these for anything you like, but
 Queue implementation. All operations(insert, remove and peek) are handled in O(1) time complexity(uses a ring buffer-like implementation to achieve this, as using a linked list would impact locality of reference). Resizes are supported(capacity is doubled when the elements limit is exceeded)
 
 ## HashTables
-Hash table implementation. Keys are defined as strings, and values as void pointers(which can point towards anything). The hashing function can be changed on the hashtables.c file(function hash_function), but after some testing I came to the conclusion that the djb2 function used is already pretty efficient at preventing collisions. No resizes supported as of now, might add that later on.
+Hash table implementation. Keys are defined as strings, and values as void pointers(which can point towards anything). The hashing function can be changed on the hashtables.c file(function hash_function), but after some testing I came to the conclusion that the djb2 function used is already pretty efficient at preventing collisions. Resizes are supported.
 
 All basic operations(inserts, searches and deletes) are done in O(1) time complexity(assuming collisions are rare), although I'm sure the implementation could still be optimized further.
 

@@ -4,6 +4,12 @@
 #include <assert.h>
 #include <stdio.h>
 
+static char test_key[12];
+
+static char* set_test_key(unsigned long n) {
+	sprintf(test_key, "%ld", n);
+	return test_key;
+}
 
 static void insert_one_and_remove() {
 	htptr ht = ht_create(100);
@@ -28,7 +34,6 @@ static void insert_one_and_remove() {
 
 	printf("Hashtables: insert_one_and_remove passed\n");
 }
-
 
 static void many_inserts_and_removes() {
 	char key1[] = "stuff1", key2[] = "stuff2", key3[] = "stuff3";
@@ -70,8 +75,64 @@ static void many_inserts_and_removes() {
 	printf("Hash tables: many_inserts_and_removes passed\n");
 }
 
-void hashtable_tests() {
+static void resizes() {
+	unsigned long i;
+	htptr ht = ht_create(100);
+	assert(ht != NULL);
+	assert(ht->n_elements == 0);
+	void *value;
 
+	for (i = 1; i <= HASHTABLE_LOAD_FACTOR * 100; ++i) {
+		ht_insert(ht, set_test_key(i), (void *)i);
+		assert(ht->n_elements == i);
+		assert(ht->size == 100);
+	}
+
+	for (unsigned long j = 1; j < i; ++j) {
+		value = ht_get(ht, set_test_key(j));
+		assert(value == (void *)j);
+	}
+
+	// resize here
+	ht_insert(ht, set_test_key(i), (void *)i);
+
+	assert(ht->n_elements == i);
+	assert(ht->size == 200);
+
+	for (unsigned long j = 1; j < i; ++j) {
+		value = ht_get(ht, set_test_key(j));
+		assert(value == (void *)j);
+	}
+
+	for (i = i + 1; i <= HASHTABLE_LOAD_FACTOR * 200; ++i) {
+		ht_insert(ht, set_test_key(i), (void *)i);
+		assert(ht->n_elements == i);
+		assert(ht->size == 200);
+	}
+
+	for (unsigned long j = 1; j < i; ++j) {
+		value = ht_get(ht, set_test_key(j));
+		assert(value == (void *)j);
+	}
+
+	// resize here
+	ht_insert(ht, set_test_key(i), (void *)i);
+
+	assert(ht->n_elements == i);
+	assert(ht->size == 400);
+
+	for (unsigned long j = 1; j <= i; ++j) {
+		value = ht_get(ht, set_test_key(j));
+		assert(value == (void *)j);
+	}
+
+	ht_delete(ht);
+
+	printf("Hashtables: resizes passed\n");
+}
+
+void hashtable_tests() {
 	insert_one_and_remove();
 	many_inserts_and_removes();
+	resizes();
 }

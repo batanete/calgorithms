@@ -23,7 +23,7 @@ static unsigned long hash_function(unsigned int size, char* key){
 		//res += c; //lose lose
 		res = ((res << 5) + res) + c; /* hash * 33 + c (djb2)*/
 		//res = c + (res << 6) + (res << 16) - res; //sdbm
-	res=res%size;
+	res = res % size;
 	
 	
 	return res;
@@ -33,6 +33,51 @@ static void node_init(ht_node* node_ptr, char* key, char* value) {
 	strcpy(node_ptr->key, key);
 	node_ptr->value = value;
 	node_ptr->next = NULL;
+}
+
+static int resize(htptr ht) {
+	htptr copy = ht_create(ht->size * 2);
+
+	// OOM
+	if (copy == NULL) return -1;
+
+	unsigned int inserted = 0;
+	ht_node *curr = ht->table;
+
+	while (inserted < ht->n_elements) {
+		if (curr->value) {
+			if (ht_insert(copy, curr->key, curr->value) == -1) {
+				ht_delete(copy);
+				return -1;
+			}
+			++inserted;
+		}
+
+		// insert every other entry at this node(there may be more than one due to collisions)
+		// also delete the extra nodes from the old structure
+		ht_node *node_curr = curr->next;
+		ht_node *node_prev;
+		while (node_curr) {
+			if (ht_insert(copy, node_curr->key, node_curr->value) == -1) {
+				ht_delete(copy);
+				return -1;
+			}
+
+			node_prev = node_curr;
+			node_curr = node_curr->next;
+
+			free(node_prev);
+			++inserted;
+		}
+		
+		++curr;
+	}
+
+	ht->size = copy->size;
+	ht->table = copy->table;
+	free(copy);
+
+	return 0;
 }
 
 /*
@@ -69,7 +114,7 @@ htptr ht_create(unsigned int size){
 int ht_delete(htptr ht){
 	ht_node* nodeptr;
 	int i;
-	nodeptr = &ht->table[0];
+	nodeptr = ht->table;
 	
 	for (i = 0; i < ht->size; ++i) {
 		ht_node* curr = nodeptr->next;
@@ -91,7 +136,7 @@ int ht_delete(htptr ht){
 //returns the value associated with the given key on ht, or NULL if the key doesn't exist on it.
 //not that if you have a key associated with the value NULL, it will still return NULL, so it's best
 //not to do that.
-void* ht_get(htptr h,char* k){
+void* ht_get(htptr h, char* k){
 	unsigned long index;
 	ht_node* aux;
 	
@@ -114,14 +159,22 @@ void* ht_get(htptr h,char* k){
 //inserts a new element on the hashtable with a given key and value(void pointer). 
 //returns 1 if there were collisions during insertion and 0 if not.
 //or -1 if an error ocurred.
-int ht_insert(htptr ht, char* key,void* value){
-	int res=0, index;
+//may perform a resize if the load factor is exceeded.
+int ht_insert(htptr ht, char* key, void* value){
+	int res = 0, index;
 	ht_node* node;
 	
 	//key too big
-	if (strlen(key) >= MAX_KEY_SIZE) {
+	if (strlen(key) >= HASHTABLE_MAX_KEY_SIZE) {
 		return -1;
 	}
+
+	if (ht->size * HASHTABLE_LOAD_FACTOR < ht->n_elements + 1) {
+		if (resize(ht) == -1) {
+			return -1;
+		}
+	}
+
 	index = hash_function(ht->size, key);
 
 	node = &ht->table[index];
@@ -188,4 +241,33 @@ void* ht_remove(htptr ht,char* key){
 	
 	//key doesn't exist on ht
 	return NULL;
+}
+
+//returns a dynamic allocated array with all the keys of the HT.
+//the size of the array will be ht->n_elements.
+char** ht_get_all_keys(htptr ht){
+	char **result = (char**)malloc(sizeof(char*) * ht->n_elements);
+	ht_node* nodeptr = ht->table;
+	int index = 0;
+
+	while (index < ht->n_elements) {
+		// get each key on this bucket
+		if (nodeptr->value != NULL) {
+			result[index] = nodeptr->key;
+			++index;
+		}
+
+		ht_node* curr = nodeptr->next;
+		while (curr) {
+			result[index] = curr->key;
+			++index;
+
+			ht_node* prev = curr;
+			curr = prev->next;
+		}
+
+		++nodeptr;
+	}
+	
+	return result;
 }
